@@ -1,0 +1,54 @@
+{
+  "input" : {
+
+    "channel" : "DATABASE",
+    "threads" : 100,
+    "poll_duration" : 10,
+    "poll_duration_unit" : "MINUTES",
+
+    "channelInfo" : {
+      "type" : "H2",
+      "url" : "jdbc:h2:mem:testdb",
+      "driver" : "org.h2.Driver",
+      "username" : "admin",
+      "password" : "*********",
+      "connections" : 10,
+      "query" : "select * from products limit 3"
+    },
+
+    "channelInfo" : {
+      "type" : "REDIS",
+      "host" : "",
+      "port" : "",
+      "username" : "",
+      "password" : "",
+      "name" : "otp_queue",
+      "format" : "JSON"
+    },
+
+    "channelInfo" : {
+      "apiKey" : "",
+      "url" : "http://localhost:8080/test",
+      "method" : "GET",
+      "username" : "",
+      "password" : "",
+      "format" : "JSON"
+    }
+  },
+
+  "output" : {
+
+    "channel" : "DATABASE",
+    "format" : "XML",
+    "threads" : 100,
+
+    "channelInfo" : {
+      "apiKey" : "",
+      "url" : "http://localhost:8080/test",
+      "method" : "GET",
+      "username" : "",
+      "password" : "",
+      "format" : "JSON"
+    }
+  }
+}
