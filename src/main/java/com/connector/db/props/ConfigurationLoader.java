@@ -1,55 +1,48 @@
 package com.connector.db.props;
 
 import com.connector.db.exceptions.ConfigFileNotFoundException;
-import com.connector.db.utils.JsonUtils;
+import com.connector.db.exceptions.PropertiesNotLoadedException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ * @author aryak
+ * Bean responsible for read configurations supplied by property file.
+ * The file path is provided via environment variable <code>-config.path</code>
+ */
 @Component
 @Slf4j
 public class ConfigurationLoader {
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
+
+    @Setter
+    @Getter
     private Map<String, Object> configMap;
-
-    public Map<String, Object> getConfigMap() {
-        return configMap;
-    }
-
-    public void setConfigMap(Map<String, Object> configMap) {
-        this.configMap = configMap;
-    }
 
     public ConfigurationLoader(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 
-    public Object get(String key){
-        return configMap.get(key);
-    }
-
-    public Object getNested(String nestedKey){
-        return JsonUtils.getNestedValue(configMap, nestedKey.split("\\."));
-    }
-
     /**
-     * reads the properties and populates a map of config
+     * loads the properties from file & populates the config map
      *
      * @param propertyFilePath path to property path
      */
     public void loadProperties(String propertyFilePath) {
 
-        log.info("Path : {}", propertyFilePath);
+        log.info("Properties file path : {}", propertyFilePath);
         File file = new File(propertyFilePath);
-        Map<String, Object> configMap = new HashMap<>();
 
         if ( !file.exists() ) {
             throw new ConfigFileNotFoundException("Config path :" + propertyFilePath + " is not valid!");
@@ -64,13 +57,14 @@ public class ConfigurationLoader {
 
         if ( configMap != null ) {
             try {
-                log.info("Config read as : " + objectMapper
+                log.info("Config read as : {}", objectMapper
                         .writerWithDefaultPrettyPrinter()
                         .writeValueAsString(configMap));
             } catch (JsonProcessingException e) {
                 log.error("Exception occurred while converting config file : {}", e.getMessage(), e);
             }
+        } else {
+            throw new PropertiesNotLoadedException("Property map not initialised at startup!");
         }
-        setConfigMap(configMap);
     }
 }
