@@ -3,8 +3,9 @@
 
     "channel" : "DATABASE",
     "threads" : 100,
+    "threads_max" : 100,
     "poll_duration" : 10,
-    "poll_duration_unit" : "MINUTES",
+    "poll_duration_unit" : "SECONDS",
 
     "channelInfo" : {
       "type" : "H2",
@@ -41,6 +42,7 @@
     "channel" : "DATABASE",
     "format" : "XML",
     "threads" : 100,
+    "threads_max" : 100,
 
     "channelInfo" : {
       "apiKey" : "",

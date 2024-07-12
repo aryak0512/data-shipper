@@ -1,6 +1,5 @@
 package com.connector.db.factory;
 
-import com.connector.db.props.ConfigurationLoader;
 import com.connector.db.tasks.RejectedTaskHandler;
 import org.springframework.stereotype.Component;
 

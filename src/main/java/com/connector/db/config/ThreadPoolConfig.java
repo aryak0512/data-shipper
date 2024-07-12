@@ -13,10 +13,11 @@ public class ThreadPoolConfig {
 
     public ThreadPoolConfig(ExecutorFactory factory, PropertyManager propertyManager) {
 
-        var inputThreads = (int) propertyManager.getNested("input.threads");
-        var inputThreadsMax = (int) propertyManager.getNested("input.threads.max");
-        var outputThreads = (int) propertyManager.getNested("output.threads");
-        var outputThreadsMax = (int) propertyManager.getNested("output.threads.max");
+
+        int inputThreads = (int) propertyManager.getProperty("input.threads");
+        int inputThreadsMax = (int) propertyManager.getProperty("input.threads_max");
+        int outputThreads = (int) propertyManager.getProperty("output.threads");
+        int outputThreadsMax = (int) propertyManager.getProperty("output.threads_max");
 
         this.consumerExecutor = factory.build(inputThreads, inputThreadsMax);
         this.producerExecutor = factory.build(outputThreads, outputThreadsMax);

@@ -23,6 +23,9 @@ public class JsonUtils {
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public static <T> T getNestedValue(Map map, String... keys) {
+        System.out.println("Map is : " + map )
+        ;
+        System.out.println("Keys are : " + keys[0] + " " + keys[1]);
         Object value = map;
         for (String key : keys)
             value = ((Map) value).get(key);
